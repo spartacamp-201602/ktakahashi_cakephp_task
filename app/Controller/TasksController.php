@@ -6,6 +6,8 @@ class TasksController extends AppController
 
     public $helpers = array('Html', 'Form');
 
+    public $components = array('Flash');
+
     public function index()
     {
         $options = array(
@@ -20,25 +22,18 @@ class TasksController extends AppController
         $this->set('tasks', $tasks);
     }
 
-    // public function done($id)
-    // {
-    //     // 既存のレコードを取得
-    //     $task = $this->Task->findById($id);
+    public function done($id)
+    {
+        $this->Task->id = $id;
 
-    //     if (!$task)
-    //     {
-    //         // 既存レコードが見つからない場合
-    //         throw new NotFoundException('そんなタスクないよ〜');
-    //     } else
-    //     {
-    //         $this->Task->id = $id;
-    //         $this->Task->save(array('status' => 1));
+        // 単一のレコードのカラムを更新
+        $this->Task->SaveField('status', 1);
 
-    //         // フラッシュメッセージ
-    //         $this->Flash->success('ID:' . $id . 'のタスクを完了しました');
+        //完了したことをフラッシュメッセージで表示
+        $msg = sprintf('タスク %s を完了しました', $id);
+        $this->Flash->success($msg);
 
-    //         // リダイレクト
-    //         return $this->redirect(array('action' => 'index'));
-    //     }
-    // }
+        // リダイレクト
+        return $this->redirect(array('action' => 'index'));
+    }
 }
