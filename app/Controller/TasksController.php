@@ -36,6 +36,7 @@ class TasksController extends AppController
         // リダイレクト
         return $this->redirect(array('action' => 'index'));
     }
+<<<<<<< HEAD
 
     public function create()
     {
@@ -55,4 +56,6 @@ class TasksController extends AppController
             }
         }
     }
+=======
+>>>>>>> 4269c5afd47a4cfdccb94d6fc1d97f53546560f4
 }
