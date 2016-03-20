@@ -37,10 +37,9 @@ class TasksController extends AppController {
         // ポストメソッドの時
         if ($this->request->is('post'))
         {
-
-            if ($hits->Task->save($this->Task->data))
+            if ($this->Task->save($this->request->data))
             {
-                $msg = sprintf('タスク %s を作成しました。');
+                $msg = sprintf('タスク %s を作成しました。', $this->Task->id);
                 $this->Flash->success($msg);
 
                 $this->redirect(array('action' => 'index'));
