@@ -1,49 +1,57 @@
 <?php
 
-class TasksController extends AppController {
+class TasksController extends AppController
+{
+    // public $scaffold;
 
-    public $helpers = array('Html');
+    public $helpers = array('Html', 'Form');
 
     public $components = array('Flash');
 
-    public function index() {
+    public function index()
+    {
         $options = array(
             'conditions' => array(
-            'Task.status' => 0)
+                'Task.status' => 0
+                )
             );
+
         $tasks = $this->Task->find('all', $options);
+        // select * from tasks where status = 0;
 
         $this->set('tasks', $tasks);
-
     }
 
-    public function done($id) {
+    public function done($id)
+    {
         $this->Task->id = $id;
-        if ($this->Task->saveField('status', 1))
-        {
-            $msg = sprintf('タスク %s を完了しました。', $id);
-            $this->Flash->success($msg);
 
-            $this->redirect(array('action' => 'index'));
-        }
-        else
-        {
-            // 更新に失敗した場合
-            $this->Flash->error('更新できませんでした。。。');
-        }
+        // 単一のレコードのカラムを更新
+        $this->Task->SaveField('status', 1);
+
+        //完了したことをフラッシュメッセージで表示
+        $msg = sprintf('タスク %s を完了しました', $id);
+        $this->Flash->success($msg);
+
+        // リダイレクト
+        return $this->redirect(array('action' => 'index'));
     }
 
-    public function create() {
-        // ポストメソッドの時
+    public function create()
+    {
+        //POSTメソッドのチェック
         if ($this->request->is('post'))
         {
-
-            if ($hits->Task->save($this->Task->data))
+            if ($this->Task->save($this->request->data))
             {
-                $msg = sprintf('タスク %s を作成しました。');
-                $this->Flash->success($msg);
+                $this->Flash->success('タスク'. $this->Task->id. 'を登録しました');
 
+                // リダイレクト
                 $this->redirect(array('action' => 'index'));
+            }
+            else
+            {
+                $this->Flash->error('登録できませんでした。。。');
             }
         }
     }
