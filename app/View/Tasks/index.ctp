@@ -1,3 +1,4 @@
+<h2>未完了タスク一覧</h2>
 <?= $this->Html->link('新規タスク',
                         array(
                         'controller' => 'tasks',
@@ -16,7 +17,15 @@
     <?php foreach($tasks as $task) :?>
     <tr>
         <td><?= h($task['Task']['id']) ?></td>
-        <td><?= h($task['Task']['name']) ?></td>
+        <td><?= h($task['Task']['name']) ?>
+            <?php foreach($task['Note'] as $note) :?>
+            <li><?= $note['body'] ?></li>
+            <?php endforeach; ?>
+            <li><?= $this->Html->link('コメントを追加',
+                                array(
+                                'controller' => 'notes',
+                                'action' => 'add')) ?></li>
+        </td>
         <td><?= h($task['Task']['due_date']) ?></td>
         <td><?= h($task['Task']['created']) ?></td>
         <td><?= $this->Html->link('編集',
