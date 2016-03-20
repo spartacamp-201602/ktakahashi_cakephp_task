@@ -24,13 +24,27 @@ class TasksController extends AppController {
             $msg = sprintf('タスク %s を完了しました。', $id);
             $this->Flash->success($msg);
 
-            return $this->redirect(array(
-                            'action' => 'index'));
+            $this->redirect(array('action' => 'index'));
         }
         else
         {
             // 更新に失敗した場合
             $this->Flash->error('更新できませんでした。。。');
+        }
+    }
+
+    public function create() {
+        // ポストメソッドの時
+        if ($this->request->is('post'))
+        {
+
+            if ($hits->Task->save($this->Task->data))
+            {
+                $msg = sprintf('タスク %s を作成しました。');
+                $this->Flash->success($msg);
+
+                $this->redirect(array('action' => 'index'));
+            }
         }
     }
 }
