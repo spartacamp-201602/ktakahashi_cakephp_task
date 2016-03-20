@@ -2,7 +2,7 @@
 
 class TasksController extends AppController {
 
-    public $helpers = array('Html');
+    public $helpers = array('Html', 'Form');
 
     public $components = array('Flash');
 
@@ -44,6 +44,48 @@ class TasksController extends AppController {
 
                 $this->redirect(array('action' => 'index'));
             }
+            else
+            {
+                $this->Flash->error('保存できませんでした。。。');
+            }
         }
+    }
+
+    public function edit($id) {
+        $task = $this->Task->findById($id);
+
+        if (!$task)
+        {
+            throw new NotFoundException('そんなタスクないよ');
+        }
+
+        $this->Task->id = $id;
+
+        // フォームからの送信をチェックします
+        if ($this->request->is(array('post', 'put')))
+        {
+            // 更新を試みる
+            if ($this->Task->save($this->request->data))
+            {
+                // 更新に成功した場合
+                // フラッシュメッセージとともにリダイレクト
+                // フラッシュメッセージ
+                $this->Flash->success('タスク' . $id . 'を更新しました！');
+
+                // リダイレクト
+                return $this->redirect(array('action' => 'index'));
+            }
+            else
+            {
+                // 更新に失敗した場合
+                $this->Flash->error('タスクを更新できませんでした。。。');
+            }
+        }
+
+        if (!$this->request->data)
+        {
+            $this->request->data = $task;
+        }
+
     }
 }

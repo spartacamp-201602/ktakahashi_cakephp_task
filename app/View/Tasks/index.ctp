@@ -15,11 +15,16 @@
     </tr>
     <?php foreach($tasks as $task) :?>
     <tr>
-        <td><?= $task['Task']['id'] ?></td>
-        <td><?= $task['Task']['name'] ?></td>
-        <td><?= $task['Task']['due_date'] ?></td>
-        <td><?= $task['Task']['created'] ?></td>
-        <td><?= $this->Html->link('このタスクを完了する',
+        <td><?= h($task['Task']['id']) ?></td>
+        <td><?= h($task['Task']['name']) ?></td>
+        <td><?= h($task['Task']['due_date']) ?></td>
+        <td><?= h($task['Task']['created']) ?></td>
+        <td><?= $this->Html->link('編集',
+                                array(
+                                'controller' => 'tasks',
+                                'action' => 'edit',
+                                $task['Task']['id'])) ?>
+            <?= $this->Html->link('完了',
                                 array(
                                 'controller' => 'tasks',
                                 'action' => 'done',

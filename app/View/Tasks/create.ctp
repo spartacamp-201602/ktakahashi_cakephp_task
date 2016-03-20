@@ -2,10 +2,7 @@
 
 <?php
 
-echo $this->Form->create('Task');
-echo $this->Form->input('name');
-echo $this->Form->input('body');
-echo $this->Form->input('due_date');
+echo $this->element('form');
 
 echo $this->Form->end('タスク登録');
 
