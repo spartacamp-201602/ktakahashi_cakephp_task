@@ -56,7 +56,8 @@ class TasksController extends AppController {
 
         if (!$task)
         {
-            throw new NotFoundException('そんなタスクないよ');
+            $this->Flash->error('そんなタスクないよ');
+            $this->redirect(array('action' => 'index'));
         }
 
         $this->Task->id = $id;
@@ -73,7 +74,7 @@ class TasksController extends AppController {
                 $this->Flash->success('タスク' . $id . 'を更新しました！');
 
                 // リダイレクト
-                return $this->redirect(array('action' => 'index'));
+                $this->redirect(array('action' => 'index'));
             }
             else
             {
@@ -81,8 +82,7 @@ class TasksController extends AppController {
                 $this->Flash->error('タスクを更新できませんでした。。。');
             }
         }
-
-        if (!$this->request->data)
+        else
         {
             $this->request->data = $task;
         }
