@@ -22,7 +22,8 @@
         <td><?= $this->Html->link('このタスクを完了する',
                                 array(
                                 'controller' => 'tasks',
-                                'action' => 'done')) ?></td>
+                                'action' => 'done',
+                                $task['Task']['id'])) ?></td>
     </tr>
     <?php endforeach; ?>
 </table>
